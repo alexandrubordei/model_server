@@ -15,7 +15,7 @@ model = AutoModelForCausalLM.from_pretrained(
 tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
 
 
-def generate_text(instruction):
+def generate_text(instruction, temperature=0.2):
     tokens = tokenizer.encode(instruction)
     tokens = torch.LongTensor(tokens).unsqueeze(0)
     tokens = tokens.to("cuda")
@@ -23,7 +23,7 @@ def generate_text(instruction):
     instance = {
         "input_ids": tokens,
         "top_p": 1.0,
-        "temperature": 0.75,
+        "temperature": temperature,
         "generate_len": 1024,
         "top_k": 50,
     }
